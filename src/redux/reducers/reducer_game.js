@@ -62,7 +62,7 @@ const initialState = {
     },
   },
 
-  selectedPlayer: {},
+  selectedPlayer: {name:'', games:{}},
 };
 
 export default ((state = initialState, action) => {

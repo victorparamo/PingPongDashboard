@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { Map } from 'immutable';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -20,16 +19,17 @@ class Players extends PureComponent {
     const {
       players,
       setSelectedPlayer,
+      toggleGames,
     } = this.props;
 
     const selectedPlayer = Map(players[name]);
     setSelectedPlayer(selectedPlayer.toJS());
+    toggleGames();
   }
 
   render() {
     const {
       players,
-      toggleGames,
     } = this.props;
 
     return (
@@ -56,7 +56,6 @@ class Players extends PureComponent {
           </TableBody>
         </Table>
 
-        <Button onClick={() => toggleGames()}>Soy un boton</Button>
         <Games container={this} />
       </div>
     );
@@ -64,7 +63,7 @@ class Players extends PureComponent {
 }
 
 Players.propTypes = {
-  players: PropTypes.array.isRequired,
+  players: PropTypes.object.isRequired,
   toggleGames: PropTypes.func.isRequired,
   setSelectedPlayer: PropTypes.func.isRequired,
 };

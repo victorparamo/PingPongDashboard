@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -8,6 +9,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Drawer from '@material-ui/core/Drawer';
+import Players from '../Players';
 import uiActions from '../../redux/actions/action_ui';
 import styles from './Games.module.css';
 
@@ -16,25 +18,8 @@ function Games(props) {
     open,
     toggleGames,
     container,
-    players,
+    selectedPlayer,
   } = props;
-
-  console.log("--->", players);
-
-  // const players = [
-  //   {
-  //     name: 'Tony Stark',
-  //     percentage: 90,
-  //   },
-  //   {
-  //     name: 'Steve Rogers',
-  //     percentage: 90,
-  //   },
-  //   {
-  //     name: 'Natalia Romanova',
-  //     percentage: 90,
-  //   },
-  // ];
 
   function handleToggleDrawer() {
     toggleGames();
@@ -61,17 +46,17 @@ function Games(props) {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell align="center">Jugador</TableCell>
-            <TableCell align="center">% Juegos Ganados</TableCell>
+            <TableCell align="center">Jugador 1</TableCell>
+            <TableCell align="center">Jugador 2</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {Object.values(players).map(player => (
-            <TableRow key={player.name}>
+          {Object.values(selectedPlayer.games).map((game, index) => (
+            <TableRow key={index}>
               <TableCell align="center">
-                {player.name}
+                {`${selectedPlayer.name} (${game.pointsScored})`}
               </TableCell>
-              <TableCell align="center">{`${player.percentage}%`}</TableCell>
+              <TableCell align="center">{`${game.opponent}% (${game.pointsAllowed})`}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -83,11 +68,13 @@ function Games(props) {
 Games.propTypes = {
   open: PropTypes.bool.isRequired,
   toggleGames: PropTypes.func.isRequired,
+  container: PropTypes.shape({ current: PropTypes.instanceOf(Players) }).isRequired,
+  selectedPlayer: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
   open: state.ui.showMatches,
-  players: state.game.players,
+  selectedPlayer: state.game.selectedPlayer,
 });
 
 const mapDispatchToProps = (dispatch) => {
