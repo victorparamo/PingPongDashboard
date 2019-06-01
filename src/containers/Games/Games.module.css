@@ -1,0 +1,15 @@
+.paper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: red;
+  
+}
+
+.modal {
+  position: absolute !important;
+  z-index: 500 !important;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
