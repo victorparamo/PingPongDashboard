@@ -1,37 +1,43 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Drawer from '@material-ui/core/Drawer';
+import uiActions from '../../redux/actions/action_ui';
 import styles from './Games.module.css';
 
 function Games(props) {
   const {
     open,
-    toggleDrawer,
+    toggleGames,
     container,
+    players,
   } = props;
 
-  const players = [
-    {
-      name: 'Tony Stark',
-      percentage: 90,
-    },
-    {
-      name: 'Steve Rogers',
-      percentage: 90,
-    },
-    {
-      name: 'Natalia Romanova',
-      percentage: 90,
-    },
-  ];
+  console.log("--->", players);
+
+  // const players = [
+  //   {
+  //     name: 'Tony Stark',
+  //     percentage: 90,
+  //   },
+  //   {
+  //     name: 'Steve Rogers',
+  //     percentage: 90,
+  //   },
+  //   {
+  //     name: 'Natalia Romanova',
+  //     percentage: 90,
+  //   },
+  // ];
 
   function handleToggleDrawer() {
-    toggleDrawer();
+    toggleGames();
   }
 
   return (
@@ -76,7 +82,20 @@ function Games(props) {
 
 Games.propTypes = {
   open: PropTypes.bool.isRequired,
-  toggleDrawer: PropTypes.func.isRequired,
+  toggleGames: PropTypes.func.isRequired,
 };
 
-export default Games;
+const mapStateToProps = state => ({
+  open: state.ui.showMatches,
+  players: state.game.players,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  const { toggleGames } = uiActions.creators;
+
+  return bindActionCreators({
+    toggleGames,
+  }, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(memo(Games));

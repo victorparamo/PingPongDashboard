@@ -1,5 +1,7 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button } from '@material-ui/core';
@@ -10,27 +12,23 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Games from '../Games';
 import uiActions from '../../redux/actions/action_ui';
+import gameActions from '../../redux/actions/action_game';
 import styles from './Players.module.css';
 
 class Players extends PureComponent {
-  render() {
-    const players = [
-      {
-        name: 'Tony Stark',
-        percentage: 90,
-      },
-      {
-        name: 'Steve Rogers',
-        percentage: 90,
-      },
-      {
-        name: 'Natalia Romanova',
-        percentage: 90,
-      },
-    ];
-
+  handleOnClick(name) {
     const {
-      open,
+      players,
+      setSelectedPlayer,
+    } = this.props;
+
+    const selectedPlayer = Map(players[name]);
+    setSelectedPlayer(selectedPlayer.toJS());
+  }
+
+  render() {
+    const {
+      players,
       toggleGames,
     } = this.props;
 
@@ -45,7 +43,10 @@ class Players extends PureComponent {
           </TableHead>
           <TableBody>
             {Object.values(players).map(player => (
-              <TableRow key={player.name}>
+              <TableRow
+                key={player.name}
+                onClick={() => this.handleOnClick(player.name)}
+              >
                 <TableCell align="center">
                   {player.name}
                 </TableCell>
@@ -56,31 +57,30 @@ class Players extends PureComponent {
         </Table>
 
         <Button onClick={() => toggleGames()}>Soy un boton</Button>
-        <Games
-          container={this}
-          open={open}
-          toggleDrawer={() => toggleGames()}
-        />
+        <Games container={this} />
       </div>
     );
   }
 }
 
 Players.propTypes = {
-  open: PropTypes.bool.isRequired,
+  players: PropTypes.array.isRequired,
   toggleGames: PropTypes.func.isRequired,
+  setSelectedPlayer: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  open: state.ui.showMatches,
+  players: state.game.players,
 });
 
 const mapDispatchToProps = (dispatch) => {
   const { toggleGames } = uiActions.creators;
+  const { setSelectedPlayer } = gameActions.creators;
 
   return bindActionCreators({
     toggleGames,
+    setSelectedPlayer,
   }, dispatch);
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(Players);
+export default connect(mapStateToProps, mapDispatchToProps)(Players);
