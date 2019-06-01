@@ -2,6 +2,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import FontAwesome from 'react-fontawesome';
 import { bindActionCreators } from 'redux';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -43,24 +44,32 @@ function Games(props) {
         }
       }
     >
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell align="center">Jugador 1</TableCell>
-            <TableCell align="center">Jugador 2</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {Object.values(selectedPlayer.games).map((game, index) => (
-            <TableRow key={index}>
-              <TableCell align="center">
-                {`${selectedPlayer.name} (${game.pointsScored})`}
-              </TableCell>
-              <TableCell align="center">{`${game.opponent}% (${game.pointsAllowed})`}</TableCell>
+      <>
+        <div className={styles.header}>
+          <FontAwesome
+            name="backspace"
+            onClick={handleToggleDrawer}
+          />
+        </div>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">Jugador 1</TableCell>
+              <TableCell align="center">Jugador 2</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {Object.values(selectedPlayer.games).map((game, index) => (
+              <TableRow key={index}>
+                <TableCell align="center">
+                  {`${selectedPlayer.name} (${game.pointsScored})`}
+                </TableCell>
+                <TableCell align="center">{`${game.opponent}% (${game.pointsAllowed})`}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </>
     </Drawer>
   );
 }

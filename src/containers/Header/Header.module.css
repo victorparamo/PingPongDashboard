@@ -1,0 +1,36 @@
+.root {
+  width: 80%;
+  height: 50px;
+  position: relative;
+  margin: 20px auto 30px auto;
+  display: flex;
+  justify-content: space-around;
+}
+
+.firstButton {
+  width: 70px;
+  height: 90%;
+  line-height: 2.8 !important;
+  color: white;
+  text-align: center;
+  border: 1px solid white;
+}
+
+
+.secondButton {
+  width: 70px;
+  height: 90%;
+  color: white;
+  line-height: 1.4 !important;
+  text-align: center;
+  border: 1px solid white;
+}
+
+.gamesButton {
+  width: 80px;
+  height: 90%;
+  color: white;
+  line-height: 2.8 !important;
+  text-align: center;
+  border: 1px solid white;
+}
